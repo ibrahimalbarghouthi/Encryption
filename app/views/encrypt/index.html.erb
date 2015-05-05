@@ -1,0 +1,171 @@
+<div class="container-fluid">
+<div style="text-align: center;"><h1><%= @data %>Hill Cipher</h1></div>
+<br></br></br>
+<div class="row-fluid">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Message</button>
+      </span>
+      <input type="text" id="text" class="form-control" placeholder="">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Cipher</button>
+      </span>
+      <input type="text" id="cipher" class="form-control" placeholder="">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+
+</div><!-- /.row -->
+<br>
+<br>
+
+<h1 style="text-align: center;">Key</h1>
+</div>
+<div class="key3 col-lg-6">
+<h2><input class="checking" type="radio" id="k3x3" name="key">3x3</h2>
+<div class="row-fluid col-lg-12">
+  <div class="col-lg-2">
+        <input type="number" class="form-control k1" placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k2"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k3"  placeholder="">
+
+  </div>
+</div><div class="row-fluid col-lg-12">
+  <div class="col-lg-2">
+        <input type="number" class="form-control k4"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k5"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k6"  placeholder="">
+
+  </div>
+
+</div>
+<div class="row-fluid col-lg-12">
+  <div class="col-lg-2">
+        <input type="number" class="form-control k7"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k8"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k9"  placeholder="">
+
+  </div>
+</div>
+</div>
+<div class="key2 col-lg-6 pull-right">
+<h2><input type="radio" class="checking" id="k2x2" name="key">2x2</h2>
+
+<div class="row-fluid col-lg-12">
+  <div class="col-lg-2">
+        <input type="number" class="form-control k1" placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k2"  placeholder="">
+
+  </div>
+</div><div class="row-fluid col-lg-12">
+  <div class="col-lg-2">
+        <input type="number" class="form-control k3"  placeholder="">
+
+  </div>
+  <div class="col-lg-2">
+        <input type="number" class="form-control k4"  placeholder="">
+
+  </div>
+</div>
+
+</div>
+</br>
+</br>
+<div class="row-fluid" style="text-align: center;margin-top:12%">
+<button class="btn btn-danger" id="encrypt">Encrypt</button>
+<button class="btn btn-danger" id="decrypt">Decrypt</button>
+
+</div>
+</div>
+
+<script>
+		$(".key3 .row-fluid input").attr('disabled','disabled');
+				$(".key2 .row-fluid input").attr('disabled','disabled');
+
+	$('.checking').click(function() {
+		$(".key3 .row-fluid input").attr('disabled','disabled');
+		$(".key2 .row-fluid input").attr('disabled','disabled');
+
+   if($('#k3x3').is(':checked')) { 
+   	$(".key3 .row-fluid input").removeAttr('disabled');
+    }
+     if($('#k2x2').is(':checked')) { 
+     $(".key2 .row-fluid input").removeAttr('disabled');
+     }
+
+});
+	$("#encrypt").click(function(){
+		var length=$(".checking:checked").attr("id");
+		if(length=="k2x2"){
+			length=2;
+			var key=[[$(".key2 .k1").val(),$(".key2 .k2").val()],[$(".key2 .k3").val(),$(".key2 .k4").val()]];
+
+		}else if(length=="k3x3"){
+			var key=[[$(".key2 .k1").val(),$(".key2 .k2").val(),$(".key2 .k3").val()],[$(".key3 .k4").val(),$(".key3 .k5").val(),$(".key3 .k6").val()],[$(".key3 .k7").val(),$(".key3 .k8").val(),$(".key3 .k9").val()]];
+			length=3;
+		}
+		$.ajax({
+ 		 url: "<%= encrypt_hillcipher_path %>",
+ 		 type:"post",
+ 		 data: {
+ 		 	key:key,
+ 		 	type:"encrypt",
+ 		 	key_length:length,
+ 		 	text:$("#text").val()
+ 		 }
+		}).done(function( data ) {
+			$("#cipher").val(data);
+  		});
+	});
+
+	$("#decrypt").click(function(){
+		var length=$(".checking:checked").attr("id");
+		if(length=="k2x2"){
+			length=2;
+			var key=[[$(".key2 .k1").val(),$(".key2 .k2").val()],[$(".key2 .k3").val(),$(".key2 .k4").val()]];
+
+		}else if(length=="k3x3"){
+			var key=[[$(".key2 .k1").val(),$(".key2 .k2").val(),$(".key2 .k3").val()],[$(".key3 .k4").val(),$(".key3 .k5").val(),$(".key3 .k6").val()],[$(".key3 .k7").val(),$(".key3 .k8").val(),$(".key3 .k9").val()]];
+			length=3;
+		}
+		$.ajax({
+ 		 url: "<%= encrypt_hillcipher_path %>",
+ 		 type:"post",
+ 		 data: {
+ 		 	key:key,
+ 		 	type:"decrypt",
+ 		 	key_length:length,
+ 		 	text:$("#cipher").val()
+ 		 }
+		}).done(function( data ) {
+			$("#text").val(data);
+  		});
+	});
+
+</script>

@@ -1,0 +1,83 @@
+<div class="container-fluid">
+<div style="text-align: center;"><h1>PlayFair</h1></div>
+<br></br></br>
+<div class="row-fluid">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Message</button>
+      </span>
+      <input type="text" id="text" class="form-control" placeholder="">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Cipher</button>
+      </span>
+      <input type="text" id="cipher" class="form-control" placeholder="">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+</div><!-- /.row -->
+<br>
+<br>
+
+<h1 style="text-align: center;">Key</h1>
+</div>
+<div class="row-fluid">
+<div class="col-lg-4">
+</div>
+ <div class="col-lg-4">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Key</button>
+      </span>
+      <input type="text" id="key" class="form-control" placeholder="">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+
+</div>
+
+
+</br>
+</br>
+<div class="row-fluid" style="text-align: center;margin-top:12%">
+<button class="btn btn-danger" id="encrypt">Encrypt</button>
+<button class="btn btn-danger" id="decrypt">Decrypt</button>
+
+</div>
+</div>
+
+<script>
+	$("#encrypt").click(function(){
+
+		$.ajax({
+ 		 url: "<%= encrypt_playfair_path %>",
+ 		 type:"post",
+ 		 data: {
+ 		 	key:$("#key").val(),
+ 		 	type:"encrypt",
+ 		 	text:$("#text").val()
+ 		 }
+		}).done(function( data ) {
+			$("#cipher").val(data);
+  		});
+	});
+
+	$("#decrypt").click(function(){
+	
+		$.ajax({
+ 		 url: "<%= encrypt_playfair_path %>",
+ 		 type:"post",
+ 		 data: {
+ 		 	key:$("#key").val(),
+ 		 	type:"decrypt",
+ 		 	text:$("#cipher").val()
+ 		 }
+		}).done(function( data ) {
+			$("#text").val(data);
+  		});
+	});
+
+</script>
