@@ -4,6 +4,7 @@ Encr::Application.routes.draw do
 
  post "encrypt/hillcipher"
    post "encrypt/playfair"
+   resources :encrypt
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
