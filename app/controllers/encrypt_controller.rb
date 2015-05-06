@@ -18,8 +18,6 @@ class EncryptController < ApplicationController
 		  array=array+l1[0,tmp].join("")
 		  array=array.split("")
 			text=text.gsub(" ","")
-
-	
 		counter=0
 		(0..text.length - 1).step(2).each do |index|
 				c=""
@@ -53,26 +51,26 @@ class EncryptController < ApplicationController
 				row2=array.index(b)/5
 				col2=array.index(b)%5
 				if row1 == row2 
-            		if col1 == 0 
-             			c = array[row1*5 + 4]
+            		if col1 == 4
+             			c = array[row1*5] 
             		else 
-             			c = array[row1*5 + col1 - 1]
+             			c = array[row1*5 + col1 + 1]
             		end
-            		if col2 == 0
-            			d = array[row2*5 +4]
+            		if col2 == 4
+            			d = array[row2*5]
             		else
-            			d = array[row2*5 + col2 - 1]
+            			d = array[row2*5 + col2 + 1]
          			end
            		elsif col1 == col2 
-            		if row1 == 0 
-            			c = array[20+col1]
+            		if row1 == 4 
+            			c = array[col1]
           			else 
-            			c = array[(row1-1)*5 + col1]
+            			c = array[(row1+1)*5 + col1]
            			end
-            		if row2 == 0
-             			d = array[20+col2]
+            		if row2 == 4
+             			d = array[col2]
             		else
-            			d = array[(row2-1)*5 + col2]
+            			d = array[(row2+1)*5 + col2]
          			end
         		else
             		c = array[row1*5 + col2]
@@ -123,26 +121,26 @@ class EncryptController < ApplicationController
 				row2=array.index(b)/5
 				col2=array.index(b)%5
 				if row1 == row2 
-            		if col1 == 4 
-             			c = array[row1*5]
+            		if col1 == 0
+             			c = array[row1*5 + 4]
             		else 
-             			c = array[row1*5 + col1 + 1]
+             			c = array[row1*5 + col1 - 1]
             		end
-            		if col2 == 4 
+            		if col2 == 0 
             			d = array[row2*5]
             		else
-            			d = array[row2*5 + col2 + 1]
+            			d = array[row2*5 + col2 - 1]
          			end
            		elsif col1 == col2 
-            		if(row1 == 4) 
-            			c = array[col1]
+            		if row1 == 0
+            			c = array[20+col1]
           			else 
-            			c = array[(row1+1)*5 + col1]
+            			c = array[(row1-1)*5 + col1]
            			end
-            		if row2 == 4 
-             			d = array[col2]
+            		if row2 == 0 
+             			d = array[20+col2]
             		else
-            			d = array[(row2+1)*5 + col2]
+            			d = array[(row2-1)*5 + col2]
          			end
         		else
             		c = array[row1*5 + col2]
