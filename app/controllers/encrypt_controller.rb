@@ -82,10 +82,10 @@ class EncryptController < ApplicationController
 			return ciphertext
 	end
 	
-	def decrypt_plaiyfair(key,cipher)
-				  l=["a","b","c","d","e","f","g","h","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+	def decrypt_plaiyfair(key,text)
+		  l=["a","b","c","d","e","f","g","h","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 		  l1=["a","b","c","d","e","f","g","h","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-		  plaintext=""
+		  ciphertext=""
 		  array=key[0,24].gsub(" ","").downcase
 		  array=array.split("")
 		  if array.index("i")
@@ -98,22 +98,33 @@ class EncryptController < ApplicationController
 		  end
 		  array=array+l1[0,tmp].join("")
 		  array=array.split("")
-
-		  counter=23
-		cipher=cipher.gsub(" ","")
-		while cipher.length%2 !=0
-			cipher=cipher+"x"
-			counter=(counter+1)%26
-		end
-
-
-			(0..cipher.length - 1).step(2).each do |index|
+			text=text.gsub(" ","")
+		counter=0
+		(0..text.length - 1).step(2).each do |index|
 				c=""
 				d=""
-				a=cipher[index]
-				b=cipher[index+1]
+				a=text[index]
+				b=text[index+1]
+
 				if a==b
-					b="x"
+					text.insert(index+1,"x")
+				end
+		end
+
+		while text.length%2 !=0
+			text=text+"x"
+		end
+			(0..text.length - 1).step(2).each do |index|
+
+				c=""
+				d=""
+				a=text[index]
+				b=text[index+1]
+				if a=="i"
+					a="j"
+				end
+				if b=="i"
+					b="j"
 				end
 
 				row1=array.index(a)/5
@@ -122,12 +133,12 @@ class EncryptController < ApplicationController
 				col2=array.index(b)%5
 				if row1 == row2 
             		if col1 == 0
-             			c = array[row1*5 + 4]
+             			c = array[row1*5 + 4] 
             		else 
              			c = array[row1*5 + col1 - 1]
             		end
-            		if col2 == 0 
-            			d = array[row2*5]
+            		if col2 == 0
+            			d = array[row2*5 + 4]
             		else
             			d = array[row2*5 + col2 - 1]
          			end
@@ -137,7 +148,7 @@ class EncryptController < ApplicationController
           			else 
             			c = array[(row1-1)*5 + col1]
            			end
-            		if row2 == 0 
+            		if row2 == 0
              			d = array[20+col2]
             		else
             			d = array[(row2-1)*5 + col2]
@@ -146,11 +157,10 @@ class EncryptController < ApplicationController
             		c = array[row1*5 + col2]
             		d = array[row2*5 + col1]
         		end
-        		plaintext += c + d;
+        		ciphertext += c + d;
 			end
 
-			return plaintext
-
+			return ciphertext
 	end
 	def index
 	end
